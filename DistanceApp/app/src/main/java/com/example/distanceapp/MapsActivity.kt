@@ -37,6 +37,8 @@ class MapsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private var longitude : Double = 0.0
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private var dialogShown : Boolean = false
+    private var lastLocation : LatLng = LatLng(0.0, 0.0)
 
     // Monitors connection to the while-in-use service.
     private val foregroundOnlyServiceConnection = object : ServiceConnection {
@@ -73,6 +75,10 @@ class MapsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        cleanData()
+    }
+
+    private fun cleanData(){
         firstLocation = null
         distance = 0.0
     }
@@ -88,6 +94,7 @@ class MapsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onResume() {
         super.onResume()
+        cleanData()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             foregroundOnlyBroadcastReceiver,
             IntentFilter(
@@ -199,10 +206,13 @@ class MapsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun setMapLocation(location: LatLng) {
+        if(lastLocation == location) return
+
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(location))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-        mMap.maxZoomLevel
+
+        lastLocation = location
     }
 
     /**
@@ -221,7 +231,10 @@ class MapsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
                 distance = firstLocation!!.distanceTo(location).toDouble()
 
-                if(distance in 50.0..53.0) basicAlert()
+                if(distance in 50.0..60.0 && !dialogShown) {
+                    basicAlert()
+                    dialogShown = true
+                }
 
                 setMapLocation(LatLng(location.latitude, location.longitude))
             }
