@@ -57,13 +57,7 @@ class LocationTrack(private val mContext: Context) : Service(), LocationListener
                                 mContext, Manifest.permission.ACCESS_COARSE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
+
                             Toast.makeText(
                                 mContext,
                                 "Location Permission Is Not Granted!",
@@ -100,13 +94,6 @@ class LocationTrack(private val mContext: Context) : Service(), LocationListener
                                 mContext, Manifest.permission.ACCESS_COARSE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
                         }
                         locationManager!!.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
@@ -164,7 +151,6 @@ class LocationTrack(private val mContext: Context) : Service(), LocationListener
         }
         alertDialog.setNegativeButton("No") { dialog, which ->
             dialog.cancel()
-            //                new AddSosDialog(context, AppPreference.getInstance(context).getUserData().getRwaid(), Double.toString(latitude), Double.toString(longitude)).show();
         }
         alertDialog.show()
     }
@@ -181,16 +167,8 @@ class LocationTrack(private val mContext: Context) : Service(), LocationListener
                     mContext, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return
             }
-            //   locationManager.removeUpdates(com.spideymanage.helper.LocationTrack.this);
         }
     }
 
